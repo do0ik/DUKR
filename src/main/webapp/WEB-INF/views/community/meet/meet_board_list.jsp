@@ -62,49 +62,6 @@
 								class='bi bi-hand-thumbs-up-fill icon'></i>5
 						</small></td>
 					</tr>
-					<tr onclick='location.href="#"'>
-						<td class='board-img'><i
-							class='bi bi-file-earmark-excel h1 icon'></i></td>
-						<td><span class='badge bg-secondary'>카탄</span>&nbsp; 제목 [1]<br>
-							<small>작성자&nbsp;2023.07.05&nbsp; <i
-								class='bi bi-eye-fill icon'></i>3&nbsp; <i
-								class='bi bi-hand-thumbs-up-fill icon'></i>5
-						</small></td>
-					</tr>
-					<tr onclick='location.href="#"'>
-						<td class='board-img'><i class='bi bi-card-image h1 icon'></i></td>
-						<td><span class='badge bg-secondary'>카탄</span>&nbsp; 제목 [1]<br>
-							<small>작성자&nbsp;2023.07.05&nbsp; <i
-								class='bi bi-eye-fill icon'></i>3&nbsp; <i
-								class='bi bi-hand-thumbs-up-fill icon'></i>5
-						</small></td>
-					</tr>
-					<tr onclick='location.href="#"'>
-						<td class='board-img'><i
-							class='bi bi-file-earmark-excel h1 icon'></i></td>
-						<td><span class='badge bg-secondary'>카탄</span>&nbsp; 제목 [1]<br>
-							<small>작성자&nbsp;2023.07.05&nbsp; <i
-								class='bi bi-eye-fill icon'></i>3&nbsp; <i
-								class='bi bi-hand-thumbs-up-fill icon'></i>5
-						</small></td>
-					</tr>
-					<tr onclick='location.href="#"'>
-						<td class='board-img'><i class='bi bi-card-image h1 icon'></i></td>
-						<td><span class='badge bg-secondary'>카탄</span>&nbsp; 제목 [1]<br>
-							<small>작성자&nbsp;2023.07.05&nbsp; <i
-								class='bi bi-eye-fill icon'></i>3&nbsp; <i
-								class='bi bi-hand-thumbs-up-fill icon'></i>5
-						</small></td>
-					</tr>
-					<tr onclick='location.href="#"'>
-						<td class='board-img'><i
-							class='bi bi-file-earmark-excel h1 icon'></i></td>
-						<td><span class='badge bg-secondary'>카탄</span>&nbsp; 제목 [1]<br>
-							<small>작성자&nbsp;2023.07.05&nbsp; <i
-								class='bi bi-eye-fill icon'></i>3&nbsp; <i
-								class='bi bi-hand-thumbs-up-fill icon'></i>5
-						</small></td>
-					</tr>
 				</table>
 			</div>
 			<div class="col-12 p-2">
