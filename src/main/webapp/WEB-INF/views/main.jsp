@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include/top_bar_declare.jspf" %>
 <!doctype html>
 <html>
-<!-- 테스트 -->
+<!-- 테스트 수정2-->
 	<head>
 		<%@ include file="/WEB-INF/views/include/head_setting.jspf" %>
 	    <!--  css 파일 -->
