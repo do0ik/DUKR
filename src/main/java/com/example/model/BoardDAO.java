@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.example.config.BoardMapperInter;
 
 @Repository
-@MapperScan( basePackages = { "com.example.config" } )
 public class BoardDAO {
 	@Autowired
 	private BoardMapperInter boardMapper;

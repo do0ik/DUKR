@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApiMeetTO {
+public class ApiPartyTO {
 	private String boardSeq;
 	private String address;
 	private String location;

@@ -1,4 +1,4 @@
-<%@page import="com.example.model.MeetTO"%>
+<%@page import="com.example.model.PartyTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -16,7 +16,7 @@
 				/* 초기 지도 설정 */
 				// 지도 출력될 태그 할당
 				const container = document.getElementById('map');
-				let options = {
+				const options = {
 					center: new kakao.maps.LatLng(37.566661, 126.978378),
 					level: 10
 				}
@@ -24,9 +24,9 @@
 				let map = new kakao.maps.Map(container, options);
 				
 				// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤 생성
-				let mapTypeControl = new kakao.maps.MapTypeControl();
+				const mapTypeControl = new kakao.maps.MapTypeControl();
 				// 지도 확대 축소를 제어할 수 있는 줌 컨트롤을 생성
-				let zoomControl = new kakao.maps.ZoomControl();
+				const zoomControl = new kakao.maps.ZoomControl();
 				
 				// 지도에 컨트롤을 추가
 				// kakao.maps.ControlPosition 컨트롤이 표시될 위치를 정의 TOPLEFT는 왼쪽 위를 의미
@@ -118,7 +118,7 @@
 				}
 				
 				function loadMeet(){
-					fetch('/api/meetings.json?loccode=0')
+					fetch('/api/getParties.json?loccode=0')
 					.then(response => response.json())
 					.then(jsonData => {
 						datas = jsonData;
@@ -279,7 +279,7 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body class="bg-light">
 		<%@ include file="/WEB-INF/views/include/top_bar_header.jspf" %>
 		<header class="py-5 bg-secondary">
 			<div class="container px-4 px-lg-5 my-5">
@@ -291,7 +291,7 @@
 		</header>
 		<main class="d-flex justify-content-center">
 			<!-- 메인 요소 -->
-			<div class="container-fluid d-flex justify-content-center bg-light bottombody">
+			<div class="container-fluid d-flex justify-content-center bottombody">
 				<div class="row py-5 mapframe">
 					<div id="map" class="col mb-3 border border-5" style="width:1000px;height:600px;"></div>
 					<div id="map-side" class="col-lg-4 align-self-center">

@@ -18,11 +18,11 @@
 	                    <ul class="dropdown-menu">
 	                    	<li><a class="dropdown-item" href="#">공지사항</a></li>
 							<li><a class="dropdown-item" href="/freeBoardList">자유게시판</a></li>
-							<li><a class="dropdown-item" href="/meetRegister">모임 게시판</a></li>
+							<li><a class="dropdown-item" href="/partyBoardList">모임 게시판</a></li>
 						</ul>
 					</li>
 					<li class="nav-item">
-                    	<a class="nav-link" href="/meetSearch">모임검색</a>
+                    	<a class="nav-link" href="/partySearch">모임검색</a>
 					</li>
 					<%= adminHtml %>
 				</ul>

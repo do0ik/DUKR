@@ -18,7 +18,6 @@ import org.springframework.stereotype.Repository;
 import com.example.config.BoardgameMapperInter;
 
 @Repository
-@MapperScan( basePackages = { "com.example.config" } )
 public class BoardgameDAO {
 	@Autowired
 	private BoardgameMapperInter gameMapper;

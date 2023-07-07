@@ -15,21 +15,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.model.ApiMeetTO;
+import com.example.model.ApiPartyTO;
 import com.example.model.BoardDAO;
 import com.example.model.BoardTO;
 import com.example.model.BoardgameDAO;
 import com.example.model.BoardgameTO;
 import com.example.model.EvaluationDAO;
 import com.example.model.EvaluationTO;
-import com.example.model.MeetDAO;
-import com.example.model.MeetTO;
+import com.example.model.PartyTO;
 import com.example.model.MemberDAO;
 import com.example.model.MemberTO;
+import com.example.model.PartyDAO;
 import com.example.model.SearchFilterTO;
 
 @RestController
@@ -48,7 +47,7 @@ public class DURKController {
 	private EvaluationDAO evalDAO;
 	
 	@Autowired
-	private MeetDAO meetDAO;
+	private PartyDAO partyDAO;
 	
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -148,16 +147,93 @@ public class DURKController {
 		return modelAndView;
 	}
 	
-	// community/meet
-	@RequestMapping("/meetBoardList")
-	public ModelAndView meetBoardList(HttpServletRequest request) {
+	// community/party
+	@RequestMapping("/partyBoardList")
+	public ModelAndView partyBoardList(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("community/meet/meet_board_list");
+		modelAndView.setViewName("community/party/party_board_list");
 		
 		return modelAndView;
 	}
-	// community/party
 	
+	@RequestMapping("/partyBoardRegister")
+	public ModelAndView partyBoardRegister(HttpServletRequest request) {
+		MemberTO userInfo = (MemberTO)request.getSession().getAttribute("logged_in_user");
+		
+		if(userInfo != null) {
+			return new ModelAndView("community/party/party_board_register");
+		}else {
+			return new ModelAndView("mypage/no_login");
+		}
+	}
+	
+	@PostMapping("/partyBoardRegisterOk")
+	public ModelAndView partyBoardRegisterOk(HttpServletRequest request) {
+		MemberTO userInfo = (MemberTO)request.getSession().getAttribute("logged_in_user");
+		
+		if(userInfo != null) {
+			// 모임 글 정보
+			BoardTO bto = new BoardTO();
+			bto.setMemSeq(userInfo.getSeq());
+			bto.setSubject(request.getParameter("subject"));
+			String content = request.getParameter("content");
+			if(content != null){
+				bto.setContent(content);
+			}
+			bto.setWip(request.getRemoteAddr());
+			bto.setTag(request.getParameter("tag"));
+			
+			// 모임 위치, 시간 정보 등
+			PartyTO pto = new PartyTO();
+			String adr = request.getParameter("address");
+			String extra = request.getParameter("extra");
+			if(extra != null){
+				adr = adr.concat(extra);
+			}
+			pto.setAddress(adr);
+			pto.setDetail(request.getParameter("detail"));
+			pto.setLocation(request.getParameter("location").trim());
+			pto.setDate(request.getParameter("date"));
+			pto.setDesired(request.getParameter("desired"));
+			pto.setLoccode(request.getParameter("loccode"));
+			pto.setLatitude(request.getParameter("latitude"));
+			pto.setLongitude(request.getParameter("longitude"));
+			
+			int flag = partyDAO.registerPartyOk(bto, pto);
+			
+			ModelAndView model = new ModelAndView("community/party/party_board_register_ok");
+			model.addObject("flag", flag);
+			return model;
+		}else {
+			return new ModelAndView("mypage/no_login");
+		}
+	}
+	
+	@RequestMapping("/partySearch")
+	public ModelAndView partySearch() {
+		ModelAndView model = new ModelAndView("community/party/party_search");
+		return model;
+	}
+	
+	@GetMapping("api/geoCodes.json")
+	public ModelAndView getGeocodes(HttpServletRequest request) {
+		String prvcode = request.getParameter("prvcode") != null ? request.getParameter("prvcode") : "";
+	
+		ModelAndView model = new ModelAndView("community/party/geocodes");
+		model.addObject("prvcode", prvcode);
+		return model;
+	}
+	
+	@GetMapping("api/getParties.json")
+	public ArrayList<ApiPartyTO> getParties(HttpServletRequest request) {
+		ArrayList<ApiPartyTO> data = null;
+		
+		String loccode = request.getParameter("loccode") != null ? request.getParameter("loccode") : "";
+		
+		data = partyDAO.getParties(loccode);
+		return data;
+	}
+
 	// game/info
 	@RequestMapping("/evalDeleteOk")
 	public ModelAndView evalDeleteOk(HttpServletRequest request) {
@@ -368,7 +444,6 @@ public class DURKController {
 	
 	// 소셜로그인 > 서버측 세션에 토큰, 유저정보 저장요청
 	@PostMapping("/saveToken")
-	@ResponseBody
 	public String save_token(HttpServletRequest req) {
 		String userInfo = req.getParameter("userInfo");
 		
@@ -552,7 +627,6 @@ public class DURKController {
 	
 	// 아이디 중복확인
 	@PostMapping("/duplCheck")
-	@ResponseBody
 	public String duplCheck(HttpServletRequest req) {
 		String id = req.getParameter("id");
 		String responseText = "possible";
@@ -563,86 +637,6 @@ public class DURKController {
 		}
 		
 		return responseText;
-	}
-	
-	// map
-	@GetMapping("api/geoCodes.json")
-	public ModelAndView geoCodes(HttpServletRequest request) {
-		String loccode = request.getParameter("loccode") != null ? request.getParameter("loccode") : "";
-
-		ModelAndView model = new ModelAndView("map/geoCodes");
-		model.addObject("loccode", loccode);
-		return model;
-	}
-	
-	@GetMapping("api/meetings.json")
-	@ResponseBody
-	public ArrayList<ApiMeetTO> apiMeetings(HttpServletRequest request) {
-		ArrayList<ApiMeetTO> data = null;
-		
-		String loccode = request.getParameter("loccode") != null ? request.getParameter("loccode") : "";
-		
-		data = meetDAO.apiMeetings(loccode);
-		return data;
-	}
-	
-	@PostMapping("/meetRegisterOk")
-	public ModelAndView registermeetok(HttpServletRequest request) {
-		MemberTO userInfo = (MemberTO)request.getSession().getAttribute("logged_in_user");
-		
-		if(userInfo != null) {
-			// 모임 글 정보
-			BoardTO bto = new BoardTO();
-			bto.setMemSeq(userInfo.getSeq());
-			bto.setSubject(request.getParameter("subject"));
-			String content = request.getParameter("content");
-			if(content != null){
-				bto.setContent(content);
-			}
-			bto.setWip(request.getRemoteAddr());
-			bto.setTag(request.getParameter("tag"));
-			
-			// 모임 위치, 시간 정보 등
-			MeetTO mto = new MeetTO();
-			String adr = request.getParameter("address");
-			String extra = request.getParameter("extra");
-			if(extra != null){
-				adr = adr.concat(extra);
-			}
-			mto.setAddress(adr);
-			mto.setDetail(request.getParameter("detail"));
-			mto.setLocation(request.getParameter("location").trim());
-			mto.setDate(request.getParameter("date"));
-			mto.setDesired(request.getParameter("desired"));
-			mto.setLoccode(request.getParameter("loccode"));
-			mto.setLatitude(request.getParameter("latitude"));
-			mto.setLongitude(request.getParameter("longitude"));
-			
-			int flag = meetDAO.registerMeetOk(bto, mto);
-			
-			ModelAndView model = new ModelAndView("map/meet_register_ok");
-			model.addObject("flag", flag);
-			return model;
-		}else {
-			return new ModelAndView("mypage/no_login");
-		}
-	}
-	
-	@RequestMapping("/meetRegister")
-	public ModelAndView registermeet(HttpServletRequest request) {
-		MemberTO userInfo = (MemberTO)request.getSession().getAttribute("logged_in_user");
-		
-		if(userInfo != null) {
-			return new ModelAndView("map/meet_register");
-		}else {
-			return new ModelAndView("mypage/no_login");
-		}
-	}
-	
-	@RequestMapping("/meetSearch")
-	public ModelAndView searchmeet() {
-		ModelAndView model = new ModelAndView("map/meet_search");
-		return model;
 	}
 	
 	// mypage

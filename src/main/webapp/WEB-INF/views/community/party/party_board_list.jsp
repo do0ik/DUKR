@@ -40,17 +40,18 @@
 
 </head>
 
-<body>
+<body class="bg-light">
 	<%@ include file="/WEB-INF/views/include/top_bar_header.jspf"%>
 	<header class="py-5 bg-secondary">
 		<div class="container px-4 px-lg-5 my-5">
 			<div class="text-center text-white">
 				<h1 class="title">모임게시판</h1>
+				<p class="lead fw-normal text-white-50">Meetings Board</p>
 			</div>
 		</div>
 	</header>
 
-	<main class="container-fluid d-flex justify-content-center bg-light">
+	<main class="container-fluid d-flex justify-content-center">
 		<div class="container d-flex justify-content-center row bottombody">
 			<div class="col-12 mt-3 p-2 row boardlist">
 				<table class="table">
@@ -66,7 +67,7 @@
 			</div>
 			<div class="col-12 p-2">
 				<button type='button' class='btn btn-dark ' data-bs-toggle="modal" data-bs-target="#searchModal" id="wbtn"><i class="bi bi-search"></i></button>
-				<button type='button' class='btn btn-dark float-end' id="wbtn">글쓰기</button>
+				<button type='button' class='btn btn-dark float-end' id="wbtn" onclick="location.href='partyBoardRegister'">글쓰기</button>
 			</div>
 		</div>
 		<div class="modal fade" id="searchModal">

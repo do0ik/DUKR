@@ -5,37 +5,37 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.config.MeetingMapperInter;
+import com.example.config.PartyMapperInter;
 
 @Repository
-public class MeetDAO {
+public class PartyDAO {
 	@Autowired
-	private MeetingMapperInter meetMapper;
+	private PartyMapperInter partyMapper;
 	
 	/* 모임 정보 반환 */
-	public ArrayList<ApiMeetTO> apiMeetings(String loccode) {
-		ArrayList<ApiMeetTO> data = null;
+	public ArrayList<ApiPartyTO> getParties(String loccode) {
+		ArrayList<ApiPartyTO> data = null;
 		
 		if(loccode.length() == 5) {
-			data = meetMapper.apiSi(loccode);
+			data = partyMapper.getPartiesBySi(loccode);
 		}else {
 			if(loccode.equals("0")) {
 				loccode = "";
 			}
-			data = meetMapper.apiDo(loccode + "%");
+			data = partyMapper.getPartiesByDo(loccode + "%");
 		}
 		
 		return data;
 	}
 	
 	/* 모임 등록 */
-	public int registerMeetOk(BoardTO bto, MeetTO mto) {
+	public int registerPartyOk(BoardTO bto, PartyTO mto) {
 		int flag = 1;
 		
-		int result = meetMapper.registerMeetOk(bto);
+		int result = partyMapper.registerPartyOk(bto);
 		if(result == 1) {
 			mto.setBoardSeq(bto.getSeq());
-			int result2 = meetMapper.registerMeetOk2(mto);
+			int result2 = partyMapper.registerPartyOk2(mto);
 			if(result2 == 1) {
 				flag = 0;
 			}

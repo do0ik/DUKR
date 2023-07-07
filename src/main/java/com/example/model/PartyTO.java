@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MeetTO {
+public class PartyTO {
 	private String seq;
 	private String boardSeq;
 	private String address;

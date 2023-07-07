@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.example.config.MemberMapperInter;
 
 @Repository
-@MapperScan( basePackages = { "com.example.config" } )
 public class MemberDAO {
 	@Autowired
 	private MemberMapperInter memberMapper;

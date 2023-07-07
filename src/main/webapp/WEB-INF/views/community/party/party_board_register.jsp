@@ -30,7 +30,8 @@
 		 -->
 		<!-- 자바 스크립트 영역 -->
 		<script type="text/javascript">
-			window.onload = () => {
+			window.addEventListener('DOMContentLoaded', () => {
+				
 				/* 다음 주소 검색 API */
 				let element_layer = document.getElementById('mbody');
 		
@@ -175,11 +176,11 @@
 							if(sdate <= date && date <= ldate){
 								document.getElementById('rfrm').submit();
 							} else {
-								alert('모임 날짜는 내일부터 한달이내로 설정 가능합니다.\n(' + min + ' ~ ' + max + ')');
+								alert('모임 날짜는 명일로부터 한달이내로 설정 가능합니다.\n(' + min + ' ~ ' + max + ')');
 							}
 					}
 				}
-			};
+			});
 		</script>
 		<!-- 개별 CSS -->
 		<style type="text/css">	
@@ -237,21 +238,21 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body class="bg-light">
 		<%@ include file="/WEB-INF/views/include/top_bar_header.jspf" %>
 		<header class="py-5 bg-secondary">
 			<div class="container px-4 px-lg-5 my-5">
 				<div class="text-center text-white">
 					<h1 class="title">모임등록</h1>
-					<p class="lead fw-normal text-white-50 mb-0">Register Meeting</p>
+					<p class="lead fw-normal text-white-50 mb-0">Register Party</p>
 				</div>
 			</div>
 		</header>
 		<main class="d-flex justify-content-center">
 			<!-- 메인 요소 -->
-			<div class="container-fluid d-flex justify-content-center bg-light bottombody">
+			<div class="container-fluid d-flex justify-content-center bottombody">
 				<div class="container d-flex justify-content-around formframe">
-					<form action="meetRegisterOk" class="row" id="rfrm" name="rfrm" method="post">
+					<form action="partyBoardRegisterOk" class="row" id="rfrm" name="rfrm" method="post">
 						<input type="hidden" id="tag" name="tag"/>
 						<input type="hidden" id="latitude" name="latitude"/>
 						<input type="hidden" id="longitude" name="longitude"/>
@@ -305,7 +306,7 @@
 							></textarea>
 						</div>
 						<div class="col-12 mb-3 d-flex justify-content-end">
-							<input type="button" class="btn btn-dark mx-2" value="취소" onclick="alert('취소');"/>
+							<input type="button" class="btn btn-dark mx-2" value="취소" onclick="history.back();"/>
 							<input type="button" class="btn btn-primary" id="rbtn" value="등록"/>
 						</div>
 					</form>
